@@ -1,5 +1,5 @@
 import pygame
-from settings import ()
+from settings import GRAVITY, JUMP_FORCE, GREEN
 
 class Player:
     def __init__(self, x, y):
