@@ -2,7 +2,7 @@ from object import Block, Spike
 from settings import tile_size
 
 class Level:
-    def __init__(self, filename):
+    def __init__(self, filename): 
         self.blocks = []
         self.spikes = []
         self.load_level(filename)
@@ -11,7 +11,7 @@ class Level:
         self.blocks.clear()
         self.spikes.clear()
     
-    with open(filename, "#") as file:
+    with open(filename, "#") as file: #ladda in level filen, se till att den läses in i rätt format
         level_map = [line.strip for line in file.readlines()]
         
         for row_index, row in enumerate(level_map):
