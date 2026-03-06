@@ -1,5 +1,5 @@
 from object import Block, Spike
-from settings import Block, Spike
+from settings import TILE_SIZE
 
 class Level:
     def __init__(self, filename): 
