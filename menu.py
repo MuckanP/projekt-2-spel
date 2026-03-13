@@ -27,11 +27,11 @@ class Button:
         return False
 
 
-class Menu:
+class Menu: # knappar i menyn
     def __init__(self):
         self.font_big = pygame.font.SysFont(None, 72)
 
-        self.start_button = Button(
+        self.start_button = Button( # startknapp
             "Start Game",
             WIDTH // 2 - 100,
             HEIGHT // 2,
@@ -39,7 +39,7 @@ class Menu:
             60,
         )
 
-        self.quit_button = Button(
+        self.quit_button = Button( # quitknapp
             "Quit",
             WIDTH // 2 - 100,
             HEIGHT // 2 + 80,

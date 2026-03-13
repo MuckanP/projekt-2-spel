@@ -1,14 +1,11 @@
-<<<<<<< HEAD
-WIDTH, HEIGHT = 800, 400
-=======
 # settings.py
-WIDTH, HEIGHT = 800, 400  # Fixed capitalization
->>>>>>> 3e800261c9b62af3227a00820810d82f82c90570
+WIDTH, HEIGHT = 1270, 720  # Fixed capitalization
+
 FPS = 60
 
-GRAVITY = 0.7
+GRAVITY = 0.8
 JUMP_FORCE = 16
-SCROLL_SPEED = 5
+SCROLL_SPEED = 7
 TILE_SIZE = 64
 
 WHITE = (255, 255, 255)

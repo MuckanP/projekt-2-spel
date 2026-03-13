@@ -29,14 +29,14 @@ class Level:
 
                 if tile == "#":
                     self.blocks.append(Block(x, y, TILE_SIZE, TILE_SIZE))
-                elif tile == "X":
+                elif tile == "X": #bytt ut ^ mot X för att undvika inaccuracy i textfilen
                     self.spikes.append(Spike(x, y, TILE_SIZE, TILE_SIZE))
 
     def reset(self):
         self.load_level(self.filename)
 
     def update(self):
-        pass  # Objects are static; camera handles all movement
+        pass  # statiska objekt, kameran hanterar all rörelse
 
     def draw(self, screen, camera_x, camera_y):
         for block in self.blocks:

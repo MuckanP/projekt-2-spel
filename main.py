@@ -22,6 +22,8 @@ menu = Menu()
 attempts = 1
 font = pygame.font.SysFont(None, 36)
 
+small_font = pygame.font.SysFont(None, 24) # font specifikt för "esc" texten
+
 def get_camera(player_rect):
     cam_x = player_rect.centerx - WIDTH // 2
     cam_y = player_rect.centery - HEIGHT // 2
@@ -62,12 +64,12 @@ while running:
         menu.draw(screen)
 
     elif game_state == "game":
-        # Auto-move player forward
+        # scrolla världen
         player.rect.x += SCROLL_SPEED
         player.update(level.blocks)
         level.update()
 
-        # Spike collision
+        # kollision för spikes
         for spike in level.spikes:
             if player.rect.colliderect(spike.rect):
                 attempts += 1
@@ -80,6 +82,9 @@ while running:
         level.draw(screen, cam_x, cam_y)
         player.draw(screen, cam_x, cam_y)
 
+        esc_text = small_font.render("ESC to quit to menu", True, BLACK)
+        screen.blit(esc_text, (1100, 10))  
+        
         attempt_text = font.render(f"Attempt {attempts}", True, BLACK)
         screen.blit(attempt_text, (10, 10))
 
