@@ -11,8 +11,9 @@ running = True
 
 game_state = "game"  # ändra till menu när menu funkar
 
-player = Player(100, Height - 80)  
-level = Level("level1.txt")  # Fixade: Changed path remove levels
+player = Player(100, Height - 80)  # fixade y-positionen
+level = Level("level1.txt")  # lägg till en level1.txt i samma mapp som main.py, eller ändra sökvägen här
+
 attempts = 1
 
 running = True
@@ -26,7 +27,7 @@ while running:
             
         if game_state == "menu":
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:  # fixade keydown
+                if event.key == pygame.K_ESCAPE:  # flyttad in i keydown check
                     pygame.quit()
                     sys.exit()
                 game_state = "game"
@@ -42,9 +43,13 @@ while running:
         
         for spike in level.spikes:  # för spike collisions 
             if player.rect.colliderect(spike.rect):
-                attempts += 1  
+                attempts += 1  # var attempt + 1 innan, uppdaterade inte variabeln tydligen
                 print("Attempt ", attempts)
-        
+                player.rect.x = 100
+                player.rect.y = Height - 80
+                player.vel_y = 0
+                    # en reset av spelaren, bara där för säkerhets skull
+                    
         screen.fill(WHITE)
         level.draw(screen)
         player.draw(screen)
