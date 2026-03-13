@@ -1,12 +1,13 @@
 import pygame
 from object import Block, Spike
-from settings import TILE_SIZE, GRAY, RED
+from settings import TILE_SIZE, GRAY, RED, BLUE
 
 class Level:
     def __init__(self, filename):
         self.filename = filename
         self.blocks = []
         self.spikes = []
+        self.win_blocks = []
         self.level_width = 0
         self.level_height = 0
         self.load_level(filename)
@@ -14,6 +15,7 @@ class Level:
     def load_level(self, filename):
         self.blocks.clear()
         self.spikes.clear()
+        self.win_blocks.clear()
 
         with open(filename, "r") as file:
             level_map = [line.rstrip("\n") for line in file.readlines()]
@@ -31,12 +33,14 @@ class Level:
                     self.blocks.append(Block(x, y, TILE_SIZE, TILE_SIZE))
                 elif tile == "X": #bytt ut ^ mot X för att undvika inaccuracy i textfilen
                     self.spikes.append(Spike(x, y, TILE_SIZE, TILE_SIZE))
+                elif tile == "W": # nytt block för win condition
+                    self.win_blocks.append(Block(x, y, TILE_SIZE, TILE_SIZE))
 
     def reset(self):
         self.load_level(self.filename)
 
     def update(self):
-        pass  # statiska objekt, kameran hanterar all rörelse
+        pass  # statiska objekt, kameran hanterar all rörelse numera
 
     def draw(self, screen, camera_x, camera_y):
         for block in self.blocks:
@@ -55,3 +59,7 @@ class Level:
                 (sx + sw, sy + sh),
             ]
             pygame.draw.polygon(screen, RED, points)
+        
+        for win_block in self.win_blocks: #rendera win condition blocken
+            draw_rect = win_block.rect.move(-camera_x, -camera_y)
+            pygame.draw.rect(screen, BLUE, draw_rect)

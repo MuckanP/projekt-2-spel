@@ -4,6 +4,7 @@ from settings import *
 from player import Player
 from level import Level
 from menu import Menu
+from winscreen import WinScreen
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -59,6 +60,10 @@ while running:
                     player.jump()
                 if event.key == pygame.K_ESCAPE:
                     game_state = "menu"
+                    
+        elif game_state == "win":
+            if WinScreen.handle_event(event):
+                game_state = "menu"
 
     if game_state == "menu":
         menu.draw(screen)
@@ -75,6 +80,11 @@ while running:
                 attempts += 1
                 reset_game()
                 break
+            
+        for win_block in level.win_blocks: # kollision för win condition blocket
+            if player.rect.colliderect(win_block.rect):
+                game_state = "win"
+                break
 
         cam_x, cam_y = get_camera(player.rect)
 
@@ -87,5 +97,12 @@ while running:
         
         attempt_text = font.render(f"Attempt {attempts}", True, BLACK)
         screen.blit(attempt_text, (10, 10))
+        
+    elif game_state == "win":
+        cam_x, cam_y = get_camera(player.rect)
+        screen.fill(WHITE)
+        level.draw(screen, cam_x, cam_y)
+        player.draw(screen, cam_x, cam_y)
+        WinScreen.draw(screen, attempts)
 
     pygame.display.flip()
