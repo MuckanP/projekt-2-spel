@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 WIDTH, HEIGHT = 800, 400
+=======
+# settings.py
+WIDTH, HEIGHT = 800, 400  # Fixed capitalization
+>>>>>>> 3e800261c9b62af3227a00820810d82f82c90570
 FPS = 60
 
 GRAVITY = 0.7
