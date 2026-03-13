@@ -1,5 +1,5 @@
 import pygame
-from object import Block, Spike
+from object import Block, Spike, WinBlock
 from settings import TILE_SIZE, GRAY, RED, BLUE
 
 class Level:

@@ -19,6 +19,7 @@ PLAYER_START_Y = 200
 player = Player(PLAYER_START_X, PLAYER_START_Y)
 level = Level("level1.txt")
 menu = Menu()
+WinScreen = WinScreen()
 
 attempts = 1
 font = pygame.font.SysFont(None, 36)
