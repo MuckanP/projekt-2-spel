@@ -29,12 +29,15 @@ class Button:
 
 class Menu: # knappar i menyn
     def __init__(self):
-        self.font_big = pygame.font.SysFont(None, 72)
+        self.font_big = pygame.font.SysFont(None, 90)
 
+        self.background = pygame.image.load("background.png") # ladda in bakgrundsbilden
+        self.background = pygame.transform.scale(self.background,(WIDTH,HEIGHT)) # skalera bakgrundsbilden till skärmstorleken
+        
         self.start_button = Button( # startknapp
             "Start Game",
             WIDTH // 2 - 100,
-            HEIGHT // 2,
+            HEIGHT // 2 - 140,
             200,
             60,
         )
@@ -42,7 +45,7 @@ class Menu: # knappar i menyn
         self.quit_button = Button( # quitknapp
             "Quit",
             WIDTH // 2 - 100,
-            HEIGHT // 2 + 80,
+            HEIGHT // 2 - 70,
             200,
             60,
         )
@@ -50,8 +53,10 @@ class Menu: # knappar i menyn
     def draw(self, screen):
         screen.fill(WHITE)
 
-        title = self.font_big.render("Geometry Dash Clone", True, BLACK)
-        screen.blit(title, (WIDTH // 2 - title.get_width() // 2, HEIGHT // 3))
+        screen.blit(self.background, (0, 0))
+
+        title = self.font_big.render("Kinesiska Geometry Dash", True, BLACK)
+        screen.blit(title, (WIDTH // 2 - title.get_width() // 2, HEIGHT // 3 - 90))
 
         self.start_button.draw(screen)
         self.quit_button.draw(screen)
