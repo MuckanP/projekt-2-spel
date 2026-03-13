@@ -6,26 +6,27 @@ class Player:
         self.rect = pygame.Rect(x, y, 40, 40)
         self.vel_y = 0
         self.on_ground = False
-        
+
     def update(self, blocks):
-        self.vel_y += GRAVITY  # bytte från self.rect = GRAVITY, vart ju lite dumt
-        self.rect.y += self.vel_y  
-        
+        self.vel_y += GRAVITY
+        self.rect.y += self.vel_y
+
         self.on_ground = False
-        
+
         for block in blocks:
             if self.rect.colliderect(block.rect):
-                if self.vel_y > 0:  
+                if self.vel_y > 0:
                     self.rect.bottom = block.rect.top
                     self.vel_y = 0
                     self.on_ground = True
-                elif self.vel_y < 0:  # när spelaren hoppar och träffar ettblock ovanför
+                elif self.vel_y < 0:
                     self.rect.top = block.rect.bottom
                     self.vel_y = 0
-                    
+
     def jump(self):
         if self.on_ground:
-            self.vel_y = -JUMP_FORCE  # bytte från self.rect = -JUMP_FORCE, vart ju lite dumt
+            self.vel_y = -JUMP_FORCE
 
-    def draw(self, screen):
-        pygame.draw.rect(screen, GREEN, self.rect)
+    def draw(self, screen, camera_x, camera_y):
+        draw_rect = self.rect.move(-camera_x, -camera_y)
+        pygame.draw.rect(screen, GREEN, draw_rect)

@@ -3,55 +3,84 @@ import pygame
 from settings import *
 from player import Player
 from level import Level
+from menu import Menu
 
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Geometry Dash Clone")
 clock = pygame.time.Clock()
-running = True
 
-game_state = "game"  # ändra till menu när menu funkar
+game_state = "menu"
 
-player = Player(100, Height - 80)  # fixade y-positionen
-level = Level("level1.txt")  # lägg till en level1.txt i samma mapp som main.py, eller ändra sökvägen här
+PLAYER_START_X = 100
+PLAYER_START_Y = 200
+
+player = Player(PLAYER_START_X, PLAYER_START_Y)
+level = Level("level1.txt")
+menu = Menu()
 
 attempts = 1
+font = pygame.font.SysFont(None, 36)
+
+def get_camera(player_rect):
+    cam_x = player_rect.centerx - WIDTH // 2
+    cam_y = player_rect.centery - HEIGHT // 2
+    return cam_x, cam_y
+
+def reset_game():
+    player.rect.x = PLAYER_START_X
+    player.rect.y = PLAYER_START_Y
+    player.vel_y = 0
+    level.reset()
 
 running = True
 while running:
     clock.tick(FPS)
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-            
+
         if game_state == "menu":
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:  # flyttad in i keydown check
-                    pygame.quit()
-                    sys.exit()
+            if menu.start_button.is_clicked(event):
                 game_state = "game"
-                
+                reset_game()
+                attempts = 1
+            if menu.quit_button.is_clicked(event):
+                pygame.quit()
+                sys.exit()
+
         elif game_state == "game":
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     player.jump()
-    
-    if game_state == "game": 
+                if event.key == pygame.K_ESCAPE:
+                    game_state = "menu"
+
+    if game_state == "menu":
+        menu.draw(screen)
+
+    elif game_state == "game":
+        # Auto-move player forward
+        player.rect.x += SCROLL_SPEED
         player.update(level.blocks)
-        level.update(SCROLL_SPEED)
-        
-        for spike in level.spikes:  # för spike collisions 
+        level.update()
+
+        # Spike collision
+        for spike in level.spikes:
             if player.rect.colliderect(spike.rect):
-                attempts += 1  # var attempt + 1 innan, uppdaterade inte variabeln tydligen
-                print("Attempt ", attempts)
-                player.rect.x = 100
-                player.rect.y = Height - 80
-                player.vel_y = 0
-                    # en reset av spelaren, bara där för säkerhets skull
-                    
+                attempts += 1
+                reset_game()
+                break
+
+        cam_x, cam_y = get_camera(player.rect)
+
         screen.fill(WHITE)
-        level.draw(screen)
-        player.draw(screen)
-    
+        level.draw(screen, cam_x, cam_y)
+        player.draw(screen, cam_x, cam_y)
+
+        attempt_text = font.render(f"Attempt {attempts}", True, BLACK)
+        screen.blit(attempt_text, (10, 10))
+
     pygame.display.flip()
