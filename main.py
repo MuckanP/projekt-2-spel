@@ -4,17 +4,15 @@ from settings import *
 from player import Player
 from level import Level
 
-
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 running = True
 
-game_state = "game" #ändra till menu när menu funkar
+game_state = "game"  # ändra till menu när menu funkar
 
-player = Player(100, HEIGHT - 80)
-level = Level("levels/level1.txt")
-
+player = Player(100, Height - 80)  
+level = Level("level1.txt")  # Fixade: Changed path remove levels
 attempts = 1
 
 running = True
@@ -28,26 +26,23 @@ while running:
             
         if game_state == "menu":
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:  # fixade keydown
+                    pygame.quit()
+                    sys.exit()
                 game_state = "game"
-            if event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit()
                 
         elif game_state == "game":
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     player.jump()
     
-    # if game_state == "menu": # meny finns inte än så länge
-    #     menu.draw(screen) # kommer bygga en meny på detta
-        
     if game_state == "game": 
         player.update(level.blocks)
         level.update(SCROLL_SPEED)
         
-        for spike in level.spikes: # för spike collisions 
+        for spike in level.spikes:  # för spike collisions 
             if player.rect.colliderect(spike.rect):
-                attempts + 1
+                attempts += 1  
                 print("Attempt ", attempts)
         
         screen.fill(WHITE)
