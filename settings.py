@@ -12,4 +12,5 @@ RED = (220, 50, 50)
 GRAY = (120, 120, 120)
 GREEN = (50, 220, 50)
 
-HEIGHT = 100 #denna kanske funkar? löser bug for now
+# HEIGHT = 100 #denna kanske funkar? löser bug for now 
+# utkommenterad numera, fuckade bara upp mer än den löste
