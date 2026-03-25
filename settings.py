@@ -1,11 +1,11 @@
 # settings.py
 WIDTH, HEIGHT = 1270, 720  # Fixed capitalization
 
-FPS = 60
+FPS = 65
 
 GRAVITY = 0.8
 JUMP_FORCE = 16
-SCROLL_SPEED = 7
+SCROLL_SPEED = 6
 TILE_SIZE = 64
 
 WHITE = (255, 255, 255)
